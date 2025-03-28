@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <ul>
+      <% if(!user){ %> 
+        <li><a href="/sign-up">Sign Up</a></li>
+        <li><a href="/log-in">Log In</a></li>
+      <% } %>
+      <li><a href="/add-member">Become a Member</a></li>
+      <% if(user) {%>
+        <li><a href="/create-message">Create a New Message</a></li>
+        <li><a href="/log-out">Log Out</a></li>
+      <% } %>
+    </ul>
+    <% if(messages){%>
+    <div class="messages">
+      <% messages.forEach(message =>  {%>
+        <p><b><%= message.title %></b></p>
+        <p><%= message.text %></p>
+        <% if(user && user.membership_status === true) {%>
+          <% const author = authors.find(author => author.id === message.user_id)%>
+          <% if(author) {%>
+            <p>Author: <%= author.first_name %> <%= author.last_name %>  </p>
+          <% } %>
+          <% const date = new Date(message.created_at) %>
+            <p>Created at: <%= date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata", timeZoneName: "short" }) %></p>
+        <% }else {%>
+        <p>Author: ???</p>
+        <p>Created at: ???</p>
+      <% }}) %>
+    </div>
+    <% } %>
+  </body>
+</html>
